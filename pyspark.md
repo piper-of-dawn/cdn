@@ -46,3 +46,16 @@ result_df = df1.select("id", "name").alias('left').join(df2.select("id", "name")
 # Show the resulting DataFrame
 result_df.show()
 ```
+
+# To Date
+```python
+from pyspark.sql.functions import to_date
+df = df.withColumn('start_date', to_date(df['start_date'], 'yyyy-MM-dd'))
+```
+
+# Sort by multiple columns
+```python
+df = df.sort(F.col('col1'), F.col('col2'), F.col('col3'))
+```
+
+
