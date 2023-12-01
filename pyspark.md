@@ -58,4 +58,11 @@ df = df.withColumn('start_date', to_date(df['start_date'], 'yyyy-MM-dd'))
 df = df.sort(F.col('col1'), F.col('col2'), F.col('col3'))
 ```
 
+# Calculate Months between two dates
+from pyspark.sql.functions import ceil, col, months_between
+months_difference = months_between(col("end_date"), col("start_date"))
+quarters = ceil(months_difference / 3)
+df = df.withColumn("quarter", quarters)
+
+
 
