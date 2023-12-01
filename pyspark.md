@@ -23,3 +23,26 @@ min_age = df.agg(F.min("Age")).first()[0]
 filtered_df3 = df3.filter(col("col3").isin(df2.select("col3").rdd.flatMap(lambda x: x).collect())) \
                  .select("col3", "col8", "col9", "col1", "col2")
 ```
+
+# Join with Duplicate columns
+```python
+from pyspark.sql import SparkSession
+
+# Create a Spark session
+spark = SparkSession.builder.appName("example").getOrCreate()
+
+# Sample DataFrames with a common column "id"
+data1 = [(1, "Alice"), (2, "Bob"), (3, "Charlie")]
+data2 = [(2, 100), (3, 200), (4, 300)]
+
+columns = ["id", "name"]
+
+df1 = spark.createDataFrame(data1, columns)
+df2 = spark.createDataFrame(data2, columns)
+
+# Inner join on the common column "id"
+result_df = df1.select("id", "name").alias('left').join(df2.select("id", "name").alias('right'), ["id"], how="inner")
+
+# Show the resulting DataFrame
+result_df.show()
+```
