@@ -45,3 +45,25 @@ def save_dataframes_to_parquet(dataframes, directory_path):
 # Assuming 'dataframes' is a list containing your pandas DataFrames,
 # and 'output_directory' is the path where you want to save the files.
 # save_dataframes_to_parquet(dataframes, output_directory)
+
+import os
+
+def rename_files(directory):
+    for filename in os.listdir(directory):
+        # Check if the file name starts with alphanumeric ID_
+        if filename.startswith("ID_"):
+            # Extract the alphanumeric ID_
+            id_part = filename.split('_', 1)[1]
+            
+            # Construct the new file name
+            new_filename = os.path.join(directory, id_part)
+            
+            # Rename the file
+            os.rename(os.path.join(directory, filename), new_filename)
+            
+            print(f'Renamed: {filename} to {id_part}')
+
+# Replace 'path/to/your/files' with the actual path
+directory_path = 'path/to/your/files'
+rename_files(directory_path)
+
