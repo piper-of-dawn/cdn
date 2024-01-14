@@ -1,20 +1,20 @@
 {
 "data": [
   {
-    path: "/",
-    name: "Home",
+    "path": "/",
+    "name": "Home"
   },
   {
-    path: "/now",
-    name: "Now",
+    "path": "/now",
+    "name": "Now"
   },
   {
-    path: "/guestbook",
-    name: "Guestbook",
+    "path": "/guestbook",
+    "name": "Guestbook"
   },
   {
-    path: "/writing",
-    name: "Writing",
-  },
+    "path": "/writing",
+    "name": "Writing"
+  }
 ]
 }
