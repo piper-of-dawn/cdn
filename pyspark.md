@@ -65,5 +65,33 @@ df = df.withColumn('quarter', ceil(df['months_diff'] / 3))
 df = df.drop('months_diff')
 ```
 
+# Get maximum of each column
+
+```python
+from pyspark.sql import SparkSession
+from pyspark.sql import functions as F
+from pyspark.sql.window import Window
+
+# Assuming you have a SparkSession named spark
+spark = SparkSession.builder.appName("example").getOrCreate()
+
+# Sample data
+data = [("scenario1", 1), ("scenario1", 2), ("scenario2", 3), ("scenario2", 4)]
+columns = ["SCENARIO", "ID"]
+
+# Creating a DataFrame
+sparkdf = spark.createDataFrame(data, columns)
+
+# Adding a column for the maximum value for each scenario
+window_spec = Window.partitionBy("SCENARIO").orderBy(F.col("ID").desc())
+sparkdf = sparkdf.withColumn("max_value", F.max("ID").over(window_spec)).filter(F.col("ID") == F.col("max_value"))
+
+# Drop the auxiliary column used for calculation
+sparkdf = sparkdf.drop("max_value")
+
+# Show the result
+sparkdf.show()
+```
+
 
 
