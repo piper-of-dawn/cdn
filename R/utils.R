@@ -15,4 +15,13 @@ read_json_as_character <- function(file_path) {
   
   return(json_string)
 }
+read_json_as_character <- function(file_path) {
+  # Read the JSON file content as a raw character string
+  json_string <- readLines(file_path, warn = FALSE)
+  
+  # Combine the lines into a single character string
+  json_character <- paste(json_string, collapse = "\n")
+  
+  return(json_character)
+}
 
