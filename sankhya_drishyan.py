@@ -278,5 +278,39 @@ def multivariate_density(model, x_label="Variable 1", y_label="Variable 2", titl
         print("No outliers detected.")
 
 
+def plot_residual_histogram_and_normality_check(residuals, outliers):
+    # Plot residual histogram with outliers
+    plt.figure(figsize=(10, 6))
+    sns.histplot(residuals, kde=True, color='blue', bins=30)
+    plt.title("Residual Histogram (With Outliers)")
+    plt.xlabel("Residuals")
+    plt.ylabel("Frequency")
+    plt.show()
+    
+    # Normality check with outliers
+    shapiro_test_stat_with_outliers, shapiro_p_value_with_outliers = shapiro(residuals)
+    normality_with_outliers = "Normal distribution" if shapiro_p_value_with_outliers > 0.05 else "Not a normal distribution"
+    print(f"Shapiro-Wilk Test (With Outliers): p-value = {shapiro_p_value_with_outliers:.4f} - {normality_with_outliers}")
+    
+    # Remove outliers from residuals
+    residuals_without_outliers = np.delete(residuals, outliers)
+    
+    # Plot residual histogram without outliers
+    plt.figure(figsize=(10, 6))
+    sns.histplot(residuals_without_outliers, kde=True, color='green', bins=30)
+    plt.title("Residual Histogram (Without Outliers)")
+    plt.xlabel("Residuals")
+    plt.ylabel("Frequency")
+    plt.show()
+    
+    # Normality check without outliers
+    shapiro_test_stat_without_outliers, shapiro_p_value_without_outliers = shapiro(residuals_without_outliers)
+    normality_without_outliers = "Normal distribution" if shapiro_p_value_without_outliers > 0.05 else "Not a normal distribution"
+    print(f"Shapiro-Wilk Test (Without Outliers): p-value = {shapiro_p_value_without_outliers:.4f} - {normality_without_outliers}")
+
+# Generate synthetic data
+np.random.seed(0)
+x = np.random.normal(size=100)
+y = 2 * x + np.random.normal(size=100)
 
 
