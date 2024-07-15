@@ -111,7 +111,7 @@ def arrange_figures(figures):
 
 def plot_acf_pacf_side_by_side(data, lags=None, padding=0.1, title='Autocorrelation and Partial Autocorrelation Functions'):
     from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
-    
+    from statsmodels.stats.stattools import durbin_watson
     fig, ax = plt.subplots(1, 2, figsize=(12, 4))
 
     # ACF plot
@@ -133,9 +133,15 @@ def plot_acf_pacf_side_by_side(data, lags=None, padding=0.1, title='Autocorrelat
 
     # Adjust layout with padding
     plt.subplots_adjust(wspace=padding)
+    # Perform Durbin-Watson test
+    dw_stat = durbin_watson(data)
+    dw_conclusion = f"Durbin-Watson Test: statistic = {dw_stat:.4f}."
 
+    # Perform ADF test
+    adf_result = adf_test(data, 0.05)
     # Add footnote
-    fig.text(0.5, -0.05, adf_test(data, 0.05), ha='center', fontsize=10, color='gray')
+    fig.text(0.5, -0.05, f"{adf_result}\n{dw_conclusion}", ha='center', fontsize=10, color='gray')
+
     plt.suptitle(title, y=1.02, fontsize=14, color='black',fontweight= 'bold')
     # Show the plots
     return fig
