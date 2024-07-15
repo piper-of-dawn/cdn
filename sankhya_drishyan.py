@@ -199,3 +199,74 @@ def multivariate_density(x, y, x_label="Variable 1", y_label="Variable 2", title
     return g
 
 
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import OLSInfluence
+from statsmodels.stats.diagnostic import het_breuschpagan
+from matplotlib.ticker import AutoMinorLocator
+
+def multivariate_density(model, x_label="Variable 1", y_label="Variable 2", title="Title"):
+    fitted_values = model.fittedvalues
+    residuals = model.resid
+    # Create the jointplot
+    g = sns.jointplot(x=fitted_values, y=residuals, kind='kde', fill=True, height=7, cmap="Reds", 
+                      color="red", marginal_kws=dict(fill=True))
+    
+    # Access the underlying Axes objects
+    ax_joint = g.ax_joint
+    ax_marg_x = g.ax_marg_x
+    ax_marg_y = g.ax_marg_y
+    
+    # Set minor locators
+    ax_joint.xaxis.set_minor_locator(AutoMinorLocator())
+    ax_joint.yaxis.set_minor_locator(AutoMinorLocator())
+    
+    # Remove spines
+    sns.despine(ax=ax_joint, left=True, bottom=True)
+    sns.despine(ax=ax_marg_x, left=True, bottom=True)
+    sns.despine(ax=ax_marg_y, left=True, bottom=True)
+    
+    # Set labels
+    ax_joint.set_xlabel(x_label)
+    ax_joint.set_ylabel(y_label)
+    
+    # Adjust the layout to create space for the title at the bottom
+    plt.subplots_adjust(bottom=0.2)
+    
+    # Add title at the bottom
+    plt.figtext(0.5, 0.04, title, ha='center', fontsize=16, fontweight="bold", color="#4C566A")
+    plt.figtext(0.5, 0.0005, f"Correlation: {np.corrcoef(x, y)[0, 1]:.2f}", fontweight="bold", ha='center', fontsize=9, color="#4C566A")
+    # Fit a linear regression model
+
+    
+    
+    # Create residual vs fitted plot
+    plt.figure(figsize=(10, 6))
+    plt.scatter(fitted_values, residuals, alpha=0.7, edgecolors='k')
+    plt.axhline(0, color='red', linestyle='--', linewidth=1)
+    plt.xlabel("Fitted Values")
+    plt.ylabel("Residuals")
+    plt.title("Residuals vs Fitted Values")
+    plt.show()
+
+    # Test for outliers using Cook's Distance
+    influence = OLSInfluence(model)
+    cooks_d = influence.cooks_distance[0]
+    
+    # Test for heteroscedasticity using Breusch-Pagan test
+    test_stat, p_value, _, _ = het_breuschpagan(residuals, model.model.exog)
+    het_test_result = "Heteroscedasticity detected" if p_value < 0.05 else "No heteroscedasticity detected"
+
+    # Show the plot
+    plt.show()
+    
+    # Footnotes
+    print(f"Cook's Distance (Outliers): {np.max(cooks_d):.4f}")
+    print(f"Breusch-Pagan Test (Heteroscedasticity): p-value = {p_value:.4f} - {het_test_result}")
+    
+    return g
+
+
+
