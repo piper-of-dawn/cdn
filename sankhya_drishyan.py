@@ -268,5 +268,15 @@ def multivariate_density(model, x_label="Variable 1", y_label="Variable 2", titl
     
     return g
 
+# Print outliers
+    if len(outliers) > 0:
+        print(f"Outlier Indices: {outliers}")
+        print("Outlier Values (X, Y):")
+        for idx in outliers:
+            print(f"({x[idx]}, {y[idx]})")
+    else:
+        print("No outliers detected.")
+
+
 
 
