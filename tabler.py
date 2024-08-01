@@ -67,3 +67,16 @@ def dict_to_markdown_table(data_dict, numbering=False):
         markdown_code.append("| " + " | ".join(row) + " |")
     
     return "\n".join(markdown_code)
+
+def dict_to_dataframe(data_dict, column_names=["Column 1", "Column 2"], remove_latex_artefacts=True):
+    def remove_latex(text):
+        return re.sub(r'\$\$.*?\$\$', '', text)
+    
+    # Create the DataFrame from the dictionary
+    df = pd.DataFrame(list(data_dict.items()), columns=column_names)
+    
+    # Remove LaTeX artifacts if the parameter is set to True
+    if remove_latex_artefacts:
+        df = df.applymap(lambda x: remove_latex(str(x)) if isinstance(x, str) else x)
+    
+    return df
