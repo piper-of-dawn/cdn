@@ -128,7 +128,12 @@ def df_to_excel(df, file_name, title=None):
         cell.border = thick_border
         cell.alignment = alignment
         ws.row_dimensions[start_row].height = 21
-
+        
+    for col in ws.columns:
+        max_length = 25
+        col_letter = col[0].column_letter
+        ws.column_dimensions[col_letter].width = max_length
+        
     # Add data rows
     for row_num, row_data in enumerate(df.values, start=start_row + 1):
         for col_num, cell_value in enumerate(row_data, 1):
