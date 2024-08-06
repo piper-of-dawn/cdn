@@ -2,3 +2,10 @@ This memo examines the methodological considerations and empirical challenges in
 We investigate two regression models for beta estimation: one including an intercept term and another constraining the intercept to zero. Our analysis reveals that the omission of the intercept results in residuals with non-zero mean and exhibits evidence of positive autocorrelation, as indicated by the Durbin-Watson statistic. Consequently, we propose the adoption of the beta estimate derived from the model incorporating the intercept.
 The statistical significance of the intercept term in our preferred model, while deviating from the Capital Asset Pricing Model (CAPM) assumptions, is consistent with the observed non-zero mean of residuals in the constrained model. We posit that this departure from theoretical expectations may be attributable to sampling variability, given the relatively small sample size of approximately 40 return observations.
 The memo is organized as follows: Section I delineates the beta estimation methodology; Section II presents a comprehensive model diagnostics; Section III assesses the impact of model choice on beta estimates; and Section IV concludes with the final proposal. 
+
+
+In the context of collateralized loan obligations (CLOs):
+The average observed bid-ask spread across credit quality was 0.04-0.12% in the CLO market from 2012-2020.
+For senior CLO tranches, the bid-ask spread was only a few basis points at the start of 2020, rising to about 10 bps by February and 20 bps by late March 2020 during the onset of the COVID-19 pandemic.
+For mezzanine CLO tranches, the bid-ask spread was about 5 bps at the beginning of 2020, rose to 15 bps in February, and reached 40 bps by the end of March 2020.
+For below-investment-grade junior CLO tranches, the realized bid-ask spreads rose more modestly in March 2020 compared to higher-rated tranches.
