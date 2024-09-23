@@ -131,6 +131,44 @@ setcolorder(DT, c("y", "x"))
 DT[sample(.N, 3)]  # Randomly sample 3 rows
 ```
 
+### Count NAs in data.table
+To check for the number of `NULL` or `NA` values in a `data.table`, you can use the following methods:
+
+### Checking for `NA` values in a single column
+```R
+# Count NA values in column 'x'
+DT[, sum(is.na(x))]
+```
+
+### Checking for `NA` values in all columns
+```R
+# Count NA values for each column
+DT[, lapply(.SD, function(col) sum(is.na(col)))]
+```
+- `.SD`: Stands for “Subset of Data,” which refers to all columns within the scope of the current operation.
+- `lapply()`: Applies the function to each column in `.SD`.
+
+### Checking for `NA` values in specific columns
+```R
+# Count NA values in columns 'x' and 'y'
+DT[, lapply(.SD, function(col) sum(is.na(col))), .SDcols = c("x", "y")]
+```
+
+### Counting total `NA` values across the entire data.table
+```R
+# Total NA count in the entire data.table
+DT[, sum(is.na(.SD))]
+```
+This computes the total number of missing values across all columns of the `data.table`.
+
+### Example: Display NA counts for all columns
+```R
+# Display NA counts with column names
+DT[, sapply(.SD, function(col) sum(is.na(col)))]
+```
+
+This will give a named vector showing the number of `NA`s for each column in the `data.table`.
+
 ### Fast File Reading/Writing
 ```R
 # Fast reading/writing using fread() and fwrite()
