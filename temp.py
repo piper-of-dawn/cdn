@@ -67,3 +67,24 @@ def rename_files(directory):
 directory_path = 'path/to/your/files'
 rename_files(directory_path)
 
+from scipy import stats
+import numpy as np
+from scipy.optimize import minimize
+import matplotlib.pyplot as plt
+np.random.seed(1)
+
+n = 20
+
+sample_data = np.random.normal(loc=0, scale=8, size=n)
+
+
+
+def gaussian_with_zero_mean(sigma):
+    nll = -np.sum(stats.norm.logpdf(sample_data, loc=0, scale=sigma))
+    return nll
+
+
+initParams = [0, 1]
+
+results = minimize(gaussian_with_zero_mean, initParams, method='Nelder-Mead')
+print(results.x)
