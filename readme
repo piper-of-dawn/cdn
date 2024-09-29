@@ -1,10 +1,8 @@
-Hi all,
+Given a set of observations $\mathbf{x} = (x_1, \ldots, x_n)$ from a Gaussian distribution with zero mean and variance $\sigma^2$, the negative log-likelihood function is:
 
-Sorry to barge in unannounced. I want to inform everyone that I have two open positions in my team for the Poland Business Run. 
+$$L(\sigma^2; \mathbf{x}) = \frac{n}{2} \ln(2\pi) + \frac{n}{2} \ln(\sigma^2) + \frac{1}{2\sigma^2} \sum_{i=1}^n x_i^2$$
 
-The current fitness level, running skills or experience do not matter at all. Only thing that matters is your willingness and discipline to improve and be a part of a supportive and motivated group. . We've created a dedicated Strava group where we can track our progress, share tips etc. On the night of the run, I am also thinking to organize a team dinner to celebrate out mutual achievements.
-
-Please DM me directly if you are interested.
-
-Regards,
-Kumar Shantanu
+where:
+- $n$ is the number of observations
+- $\sigma^2$ is the variance parameter to be estimated
+- $\sum_{i=1}^n x_i^2$ is the sum of squared observations
