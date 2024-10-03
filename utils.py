@@ -37,13 +37,21 @@ def json_to_markdown_table(file_path):
     
     return markdown_table
 
-# Example usage
-file_path = 'path_to_your_file.json'
-print(json_to_markdown_table(file_path))
+from rapidfuzz import process
 
+def find_nearest_match(input_str, candidates):
+    """
+    Find the nearest matching string from an iterable of strings.
+    
+    Args:
+    input_str (str): The input string to match.
+    candidates (iterable): An iterable of candidate strings.
+    
+    Returns:
+    str: The string from the iterable that best matches the input string.
+    """
+    # Find the best match using rapidfuzz's process.extractOne
+    match, score, _ = process.extractOne(input_str, candidates)
+    
+    return match
 
-
-# Example usage:
-array = np.array([1, 2, 3, 4])
-weights = np.array([0.1, 0.2, 0.3, 0.4])
-print(weighted_average(array, weights))  # Output should be 3.0
