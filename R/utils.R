@@ -84,3 +84,48 @@ dt <- data.table(
 )
 
 pretty_print_info(dt)
+
+
+
+read_config <- function(config_file) {
+  config_lines <- readLines(config_file) 
+
+  config_list <- list()  
+
+  for (line in config_lines) {
+
+    parts <- strsplit(line, ":\\s*")[[1]]
+    
+    if (length(parts) == 2) {
+      # Trim whitespaces and add to the list
+      attribute <- trimws(parts[1])
+      path <- trimws(parts[2])
+      
+      config_list[[attribute]] <- path
+    }
+  }
+  
+  # Return the configuration list with FALSE if an attribute is not found
+  return(function(attribute) {
+    if (!is.null(config_list[[attribute]])) {
+      return(config_list[[attribute]])
+    } else {
+      return(FALSE)
+    }
+  })
+}
+
+
+#  Configurtion looks like this
+# ATTRIBUTE_1: /path/to/file1.csv
+# ATTRIBUTE_2: /path/to/file2.csv
+# ATTRIBUTE_3: /path/to/file3.csv
+
+# Example Usage
+config <- read_config("config.yaml")
+attribute_value <- config("ATTRIBUTE_5")  # Gets the path for ATTRIBUTE_1 or FALSE if not found
+print(attribute_value) # THIS RETURNS FALSE
+
+attribute_value <- config("ATTRIBUTE_1")  # Gets the path for ATTRIBUTE_1 or FALSE if not found
+print(attribute_value) # THIS RETURNS "/path/to/file1.csv"
+
