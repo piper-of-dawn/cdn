@@ -2,29 +2,29 @@ import polars as pl
 from collections import namedtuple
 from typing import List
 
-def compare_dataframes(df1: pl.DataFrame, df2: pl.DataFrame, key_column: str) -> namedtuple:
+def compare_dataframes(first: pl.DataFrame, second: pl.DataFrame, key_column: str) -> namedtuple:
     # Create a named tuple for return type
     DiffResult = namedtuple('DiffResult', ['in_first_not_second', 'in_second_not_first'])
     
     # Validate that both dataframes have the same schema
-    if df1.schema != df2.schema:
+    if first.schema != second.schema:
         raise ValueError("Dataframes have different schemas")
     
     # Validate that key_column exists in both dataframes
-    if key_column not in df1.columns or key_column not in df2.columns:
+    if key_column not in first.columns or key_column not in second.columns:
         raise ValueError(f"Key column '{key_column}' not found in one or both dataframes")
     
-    # Find rows in df1 that are not in df2
-    in_first_not_second = df1.join(
-        df2,
-        on=df1.columns,
+    # Find rows in first that are not in second
+    in_first_not_second = first.join(
+        second,
+        on=first.columns,
         how="anti"
     )
     
-    # Find rows in df2 that are not in df1
-    in_second_not_first = df2.join(
-        df1,
-        on=df2.columns,
+    # Find rows in second that are not in first
+    in_second_not_first = second.join(
+        first,
+        on=second.columns,
         how="anti"
     )
     
