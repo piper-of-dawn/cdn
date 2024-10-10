@@ -54,5 +54,3 @@ def example_usage():
     print("\nRows in second but not in first:")
     print(result.in_second_not_first)
 
-if __name__ == "__main__":
-    example_usage()
