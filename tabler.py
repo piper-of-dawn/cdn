@@ -148,3 +148,65 @@ def df_to_excel(df, file_name, title=None):
     # Save the workbook
     wb.save(file_name)
 
+import polars as pl
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Border, Side
+from openpyxl.utils.dataframe import dataframe_to_rows
+
+def write_dataframes_to_excel(dataframes, file_name):
+    # Initialize a new workbook
+    wb = Workbook()
+    
+    # Define styles
+    consolas_font = Font(name='Consolas', size=11)
+    bold_consolas_font = Font(name='Consolas', size=11, bold=True)
+    
+    # Border styles
+    thin_border = Border(bottom=Side(style='thin'))
+    thick_bottom_border = Border(bottom=Side(style='thick'))
+    
+    # Background fill (white)
+    white_fill = PatternFill("solid", fgColor="FFFFFF")
+    
+    for (name, df) in dataframes:
+        # Create a new sheet with the given name
+        ws = wb.create_sheet(title=name)
+        
+        # Convert the Polars dataframe to a Pandas dataframe
+        pdf = df.to_pandas()
+
+        # Write the dataframe to the sheet, row by row
+        for r_idx, row in enumerate(dataframe_to_rows(pdf, index=False, header=True)):
+            ws.append(row)
+            # Set row height
+            ws.row_dimensions[r_idx + 1].height = 21
+
+            # Style the header row
+            if r_idx == 0:
+                for c_idx, cell in enumerate(ws[r_idx + 1], 1):
+                    cell.font = bold_consolas_font
+                    cell.border = thick_bottom_border
+                    cell.fill = white_fill
+            else:
+                # Style the data rows
+                for c_idx, cell in enumerate(ws[r_idx + 1], 1):
+                    cell.font = consolas_font
+                    cell.border = thin_border
+                    cell.fill = white_fill
+        
+        # Auto-adjust column width
+        for col in ws.columns:
+            max_length = max(len(str(cell.value)) for cell in col)
+            adjusted_width = max_length + 2
+            col_letter = col[0].column_letter
+            ws.column_dimensions[col_letter].width = adjusted_width
+
+    # Remove the default sheet created by Workbook
+    del wb['Sheet']
+    
+    # Save the workbook
+    wb.save(file_name)
+
+dataframes = [("Sheet1", pl.DataFrame({'col1': [1, 2], 'col2': [3, 4]})),
+              ("Sheet2", pl.DataFrame({'col1': [5, 6], 'col2': [7, 8]}))]
+write_dataframes_to_excel(dataframes, 'output.xlsx')
