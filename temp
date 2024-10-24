@@ -1,0 +1,4 @@
+=IF(A1<0,"low",IF(AND(A1>=0,A1<10),"medium","high"))
+
+pen_spark
+
