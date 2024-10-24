@@ -1,5 +1,3 @@
-library(data.table)
-
 append_row_with_default <- function(dt, new_row_data, n) {
     
   # Check if 'dt' is a data.table
@@ -38,12 +36,35 @@ append_row_with_default <- function(dt, new_row_data, n) {
   
   return(dt)
 }
-
-# Example usage
-dt <- data.table(a = 1:5, b = 6:10, c = 11:15)
-new_row_data <- list(a = 99, c = 77)
-n <- 3
-
-# Append the row
-dt <- append_row_with_default(dt, new_row_data, n)
-print(dt)
+move_row_to_end <- function(dt, n) {
+  # Check if dt is a data.table
+  if (!is.data.table(dt)) {
+    stop("Input must be a data.table")
+  }
+  
+  # Check if n is numeric
+  if (!is.numeric(n)) {
+    stop("Row number 'n' must be numeric")
+  }
+  
+  # Check if n is an integer
+  if (n != as.integer(n)) {
+    stop("Row number 'n' must be an integer")
+  }
+  
+  # Check if n is within the range of the number of rows
+  if (n > nrow(dt) || n <= 0) {
+    stop("Row number 'n' is out of range")
+  }
+  
+  # Extract the nth row
+  row_to_move <- dt[n]
+  
+  # Remove the nth row from the data.table
+  dt <- dt[-n]
+  
+  # Add the extracted row to the end of the data.table
+  dt <- rbind(dt, row_to_move)
+  
+  return(dt)
+}
