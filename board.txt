@@ -1,10 +1,10 @@
-#' Filter and replace values in a data.table
+#' Filter and replace values in a data.table while keeping all rows
 #' 
 #' @param dt A data.table object
 #' @param column_name Character string specifying the column to filter on
 #' @param filter_string Character string to filter with
 #' @param replace_list Named list where names are column names and values are replacement values
-#' @return A modified data.table
+#' @return A modified data.table with all rows
 #' @import data.table
 filter_and_replace <- function(dt, column_name, filter_string, replace_list) {
     # Input validation
@@ -21,33 +21,10 @@ filter_and_replace <- function(dt, column_name, filter_string, replace_list) {
     # Create a copy to avoid modifying the original data.table
     result_dt <- copy(dt)
     
-    # Filter the data.table
-    result_dt <- result_dt[get(column_name) == filter_string]
-    
-    # Apply replacements
+    # For each column in the replace list, update values where the filter condition is met
     for (col in names(replace_list)) {
-        set(result_dt, j = col, value = replace_list[[col]])
+        result_dt[get(column_name) == filter_string, (col) := replace_list[[col]]]
     }
     
     return(result_dt)
 }
-
-
-library(data.table)
-
-# Example usage:
-dt <- data.table(
-    id = 1:5,
-    category = c("A", "A", "B", "B", "C"),
-    value1 = 1:5,
-    value2 = 6:10
-)
-
-# Create a replacement list
-replacements <- list(
-    value1 = 100,
-    value2 = 200
-)
-
-# Filter for category "A" and replace values
-result <- filter_and_replace(dt, "category", "A", replacements)
