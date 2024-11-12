@@ -129,3 +129,47 @@ print(attribute_value) # THIS RETURNS FALSE
 attribute_value <- config("ATTRIBUTE_1")  # Gets the path for ATTRIBUTE_1 or FALSE if not found
 print(attribute_value) # THIS RETURNS "/path/to/file1.csv"
 
+filter_and_replace <- function(dt, column_name, filter_string, replace_list) {
+    # Input validation
+    if (!is.data.table(dt)) {
+        stop("Input must be a data.table")
+    }
+    if (!column_name %in% names(dt)) {
+        stop("Column name not found in data.table")
+    }
+    if (!all(names(replace_list) %in% names(dt))) {
+        stop("Some columns in replace_list not found in data.table")
+    }
+    
+    # Create a copy to avoid modifying the original data.table
+    result_dt <- copy(dt)
+    
+    # Use .SD to update multiple columns at once
+    result_dt[get(column_name) == filter_string, 
+             (names(replace_list)) := replace_list]
+    
+    return(result_dt)
+}
+
+remove_special_characters <- function(name) {
+  # Replace all non-alphanumeric characters (except space) with an underscore
+  sanitized_name <- gsub("[^[:alnum:] ]", "_", name)
+  return(sanitized_name)
+}
+
+# Example usage
+name <- "my@csv#file$name.csv"
+sanitized_name <- remove_special_characters(name)
+cat("Sanitized name:", sanitized_name)
+
+import re
+
+def remove_special_characters(name):
+    # Replace all non-alphanumeric characters (except spaces) with an underscore
+    sanitized_name = re.sub(r'[^A-Za-z0-9 ]', '_', name)
+    return sanitized_name
+
+# Example usage
+name = "my@csv#file$name.csv"
+sanitized_name = remove_special_characters(name)
+print("Sanitized name:", sanitized_name)
