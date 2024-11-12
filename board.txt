@@ -1,21 +1,5 @@
-filter_and_replace <- function(dt, column_name, filter_string, replace_list) {
-    # Input validation
-    if (!is.data.table(dt)) {
-        stop("Input must be a data.table")
-    }
-    if (!column_name %in% names(dt)) {
-        stop("Column name not found in data.table")
-    }
-    if (!all(names(replace_list) %in% names(dt))) {
-        stop("Some columns in replace_list not found in data.table")
-    }
-    
-    # Create a copy to avoid modifying the original data.table
-    result_dt <- copy(dt)
-    
-    # Use .SD to update multiple columns at once
-    result_dt[get(column_name) == filter_string, 
-             (names(replace_list)) := replace_list]
-    
-    return(result_dt)
-}
+- Expertise in Investment Risk Model: Transitioned from Life Insurance model to Investment Risk model in June 2024. In a short span of 5 months, became an active contributor and developer of IvR model.
+ - Delivered all Business-as-Usual (BAU) tasks consistently within set timeframes.
+- Ensured accuracy and reliability, maintaining a record free from operational issues or delays.
+- Actively identified and implemented improvements in the Investment Risk (IvR) model’s methodology and execution.
+ - Actively raising issues with IT to address high memory consumption challenges in model implementation and dataset read
