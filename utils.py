@@ -55,3 +55,29 @@ def find_nearest_match(input_str, candidates):
     
     return match
 
+import os
+import markdown
+
+def convert_markdown_to_html(file_path):
+    """
+    Converts a Markdown file to HTML and saves it with the same file name.
+    
+    Parameters:
+    file_path (str): Path to the Markdown file
+    """
+    # Read the Markdown file
+    with open(file_path, 'r') as file:
+        markdown_content = file.read()
+    
+    # Convert Markdown to HTML
+    html_content = markdown.markdown(markdown_content)
+    
+    # Determine the output file path
+    output_file_path = os.path.splitext(file_path)[0] + '.html'
+    
+    # Save the HTML file
+    with open(output_file_path, 'w') as file:
+        file.write(html_content)
+    
+    print(f"Markdown file '{os.path.basename(file_path)}' converted to HTML and saved as '{os.path.basename(output_file_path)}'.")
+
