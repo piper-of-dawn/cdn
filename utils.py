@@ -58,9 +58,16 @@ def find_nearest_match(input_str, candidates):
 import os
 import markdown
 
+import os
+import markdown
+from markdown.extensions.toc import TocExtension
+from markdown.extensions.tables import TableExtension
+from markdown.extensions.math import MathExtension
+
 def convert_markdown_to_html(file_path):
     """
     Converts a Markdown file to HTML and saves it with the same file name.
+    Supports Markdown tables and LaTeX expressions.
     
     Parameters:
     file_path (str): Path to the Markdown file
@@ -69,8 +76,15 @@ def convert_markdown_to_html(file_path):
     with open(file_path, 'r') as file:
         markdown_content = file.read()
     
+    # Configure Markdown extensions
+    extensions = [
+        TocExtension(),
+        TableExtension(),
+        MathExtension(enable_dollar_delimiter=True)
+    ]
+    
     # Convert Markdown to HTML
-    html_content = markdown.markdown(markdown_content)
+    html_content = markdown.markdown(markdown_content, extensions=extensions)
     
     # Determine the output file path
     output_file_path = os.path.splitext(file_path)[0] + '.html'
