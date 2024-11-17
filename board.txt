@@ -1,5 +1,14 @@
-- Expertise in Investment Risk Model: Transitioned from Life Insurance model to Investment Risk model in June 2024. In a short span of 5 months, became an active contributor and developer of IvR model.
- - Delivered all Business-as-Usual (BAU) tasks consistently within set timeframes.
-- Ensured accuracy and reliability, maintaining a record free from operational issues or delays.
-- Actively identified and implemented improvements in the Investment Risk (IvR) model’s methodology and execution.
- - Actively raising issues with IT to address high memory consumption challenges in model implementation and dataset read
+import matplotlib.pyplot as plt
+def plot_rugplot(vol_dict: dict, another_list, figsize=(10,6)):
+    fig, ax = plt.subplots(figsize=figsize)
+    n_tickers = len(vol_dict)
+    positions = np.arange(n_tickers)
+    for i, (ticker, vol_data) in enumerate(vol_dict.items()):
+        y_pos = np.full_like(vol_data, positions[i])
+        ax.scatter(vol_data, y_pos, marker='|', alpha=0.6, label=ticker, s=200)  # Increased marker size with s parameter
+        ax.scatter(another_list[i], positions[i], marker='o', color='red', s=100, zorder=5)     
+    ax.set_ylabel('Asset')
+    ax.set_yticks(positions)
+    ax.set_yticklabels(list(vol_dict.keys()))
+    ax.set_xlabel('Annualized Volatility')
+    return fig, ax
