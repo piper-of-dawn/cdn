@@ -7,6 +7,19 @@ def plot_rugplot(vol_dict: dict, another_list, figsize=(10,6)):
         y_pos = np.full_like(vol_data, positions[i])
         ax.scatter(vol_data, y_pos, marker='|', alpha=0.6, label=ticker, s=200)  # Increased marker size with s parameter
         ax.scatter(another_list[i], positions[i], marker='o', color='red', s=100, zorder=5)     
+
+        for i, (ticker, vol_data) in enumerate(vol_dict.items()):
+        twin_ax = ax.twiny()  # Create a twin x-axis
+        twin_ax.set_frame_on(False)
+        twin_ax.tick_params(direction='out', length=3)
+        
+        # Align the twin x-axis with the corresponding rug position
+        twin_ax.set_xlim(ax.get_xlim())
+        twin_ax.set_xticks(np.linspace(min(vol_data), max(vol_data), 5))
+        twin_ax.xaxis.set_label_position('bottom')
+        twin_ax.spines['bottom'].set_position(('outward', 30 * (i + 1)))
+        twin_ax.spines['bottom'].set_visible(True)
+        twin_ax.xaxis.set_ticks_position('bottom')
     ax.set_ylabel('Asset')
     ax.set_yticks(positions)
     ax.set_yticklabels(list(vol_dict.keys()))
