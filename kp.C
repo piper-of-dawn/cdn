@@ -4,9 +4,10 @@
 #include <time.h>
 #include <unistd.h> // For sleep function
 #include <conio.h> // For _kbhit and _getch
+
+
 // Function to simulate F16 key press
 void pressF16Key() {
-    // Create a key press event
     INPUT input = {0};
     input.type = INPUT_KEYBOARD;
     input.ki.wVk = VK_F16; // Virtual key code for F16
