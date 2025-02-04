@@ -1,5 +1,28 @@
+import numpy as np
+import pandas as pd
 
-Setting Thresholds for Financial Metrics
-
-Determination of Thresholds: To establish the new thresholds, the system utilizes the loss rate associated with the previously established thresholds, specifically Upper/Fair Value (U/FV) and Lower/Fair Value (L/FV).
-Calculation of New Thresholds: The new thresholds are calculated by multiplying the established threshold rate by the current Fair Value (FV) values.
+def summarize_arrays(arr_list, labels=None):
+    stats = ["Mean", "Median", "Q1", "Q3", "Min", "Max", "Std Dev", "95% Quantile", "99.9% Quantile"]
+    summary = []
+    
+    for arr in arr_list:
+        arr = np.asarray(arr)  # Ensure input is a NumPy array
+        row = [
+            np.mean(arr),
+            np.median(arr),
+            np.percentile(arr, 25),
+            np.percentile(arr, 75),
+            np.min(arr),
+            np.max(arr),
+            np.std(arr),
+            np.percentile(arr, 95),
+            np.percentile(arr, 99.9)
+        ]
+        summary.append(row)
+    
+    df = pd.DataFrame(summary, columns=stats)
+    
+    if labels:
+        df.index = labels
+    
+    return df
