@@ -1,29 +1,5 @@
-**Subject:** Proposed Changes to Mapping File  
 
-Dear Weronika,  
+Setting Thresholds for Financial Metrics
 
-We are proposing additional changes to the mapping file, as outlined below:  
-
-- **SUBRISK_TYPE2 Column**: This column determines the type of loss given a scenario and position.  
-- **Reporting Adjustments**:  
-  - Expected at Risk (EaR) will now be calculated as the 95th percentile of losses where `SUBRISK_TYPE2 == Market`.  
-  - Risk-Based Capital (RBC) will be calculated as the 99th percentile of aggregate losses, summing losses where `SUBRISK_TYPE2 == Market` and `SUBRISK_TYPE2 == Liquidity`.  
-- **RISK_METRIC Column Update**:  
-  - `EaR` will be assigned where `SUBRISK_TYPE2 == Market`.  
-  - `RBC` will be assigned where `SUBRISK_TYPE2 == Liquidity`.  
-- **Rationale**: Liquidity losses are only relevant for RBC since EaR assumes a going concern.  
-- **Additional Columns**: We have included position-specific attributes in the mapping file, primarily for dashboarding on the Insights App.  
-
-Please find attached:  
-1. The proposed mapping file with the changes.  
-2. The original mapping file currently in production.  
-
-**Actions Requested:**  
-1. Let us know if anything is unclear or if you have additional questions.  
-2. Confirm whether the schema and aggregation logic outlined above align with downstream processes. (means if this mapping file will not break anything at your end)
-3. Confirm if any additional changes are required on our end for aggregation.  (Anything we have missed or that you require to be added or removed)
-
-Looking forward to your feedback.  
-
-Best regards,  
-[Your Name]
+Determination of Thresholds: To establish the new thresholds, the system utilizes the loss rate associated with the previously established thresholds, specifically Upper/Fair Value (U/FV) and Lower/Fair Value (L/FV).
+Calculation of New Thresholds: The new thresholds are calculated by multiplying the established threshold rate by the current Fair Value (FV) values.
