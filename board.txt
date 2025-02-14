@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Subject: Request to Initiate Addition of New Columns and Approval Process from DGP Team
 
 Hi Satish,
@@ -20,3 +21,33 @@ Looking forward to your response.
 
 Best regards,  
 [Your Name]
+=======
+import numpy as np
+import pandas as pd
+
+def summarize_arrays(arr_list, labels=None):
+    stats = ["Mean", "Median", "Q1", "Q3", "Min", "Max", "Std Dev", "95% Quantile", "99.9% Quantile"]
+    summary = []
+    
+    for arr in arr_list:
+        arr = np.asarray(arr)  # Ensure input is a NumPy array
+        row = [
+            np.mean(arr),
+            np.median(arr),
+            np.percentile(arr, 25),
+            np.percentile(arr, 75),
+            np.min(arr),
+            np.max(arr),
+            np.std(arr),
+            np.percentile(arr, 95),
+            np.percentile(arr, 99.9)
+        ]
+        summary.append(row)
+    
+    df = pd.DataFrame(summary, columns=stats)
+    
+    if labels:
+        df.index = labels
+    
+    return df
+>>>>>>> fcddc69a22f8621c2d5ad4017e653a1603cae7ef

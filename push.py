@@ -3,6 +3,7 @@ import os
 def add_commit_push():
    
     # Stage the changes
+    os.system('git pull')
     os.system('git add .')
 
     # Commit the changes
