@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Function to disable sleep settings
+disable_sleep() {
+    echo "Disabling sleep settings..."
+    sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+    sudo systemctl stop sleep.target suspend.target hibernate.target hybrid-sleep.target
+}
+
+# Function to re-enable sleep settings
+reenable_sleep() {
+    echo "Re-enabling sleep settings..."
+    sudo systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
+    sudo systemctl start sleep.target suspend.target hibernate.target hybrid-sleep.target
+}
+
+# Trap to re-enable sleep settings when the script is terminated
+trap reenable_sleep EXIT
+
+# Disable sleep settings initially
+disable_sleep
+
+# Run 'ats' (Replace '/path/to/ats' with the actual path of your 'ats' binary)
+echo "Starting ats..."
+/path/to/ats &
+
+# Wait for ats to finish (or loop if you want it to run continuously)
+wait $!
+
+# If 'ats' terminates, re-enable sleep settings
+echo "ats has finished or was terminated, re-enabling sleep settings."
