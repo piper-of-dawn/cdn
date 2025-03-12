@@ -64,5 +64,61 @@ def main():
         f.write("\n".join(processed))
     print(f"Markdown written to {output_file}")
 
+import markdown
+from bs4 import BeautifulSoup
+
+# Step 1: Convert raw.md to HTML (requires 'markdown' package)
+with open('raw.md', 'r', encoding='utf-8') as f:
+    md_content = f.read()
+html_body = markdown.markdown(md_content, extensions=['tables'])
+
+# Step 2: Inject copy buttons above each table using BeautifulSoup (requires 'beautifulsoup4')
+soup = BeautifulSoup(html_body, 'html.parser')
+for table in soup.find_all('table'):
+    # Create a wrapper div
+    wrapper = soup.new_tag("div", **{"class": "table-wrapper"})
+    # Create the copy button
+    button = soup.new_tag("button", onclick="copyTable(this)")
+    button.string = "Copy this table to paste in Excel"
+    wrapper.append(button)
+    # Move the table inside the wrapper
+    wrapper.append(table.extract())
+    table.replace_with(wrapper)
+modified_html_body = str(soup)
+
+# Step 3: Build a boilerplate HTML and inject the converted content
+html_template = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Converted Markdown</title>
+  <style>
+    .table-wrapper {{ margin: 1em 0; }}
+  </style>
+  <script>
+    function copyTable(btn) {{
+      var table = btn.nextElementSibling;
+      var text = table.innerText;
+      navigator.clipboard.writeText(text).then(function() {{
+        alert("Table copied to clipboard!");
+      }}, function(err) {{
+        console.error("Could not copy text: ", err);
+      }});
+    }}
+  </script>
+</head>
+<body>
+{modified_html_body}
+</body>
+</html>
+"""
+
+with open('output.html', 'w', encoding='utf-8') as f:
+    f.write(html_template)
+
+print("HTML written to output.html")
+
+
 if __name__ == '__main__':
     main()
