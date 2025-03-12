@@ -67,26 +67,26 @@ def main():
 import markdown
 from bs4 import BeautifulSoup
 
-# Step 1: Convert raw.md to HTML (requires 'markdown' package)
+# Convert raw.md to HTML using Python Markdown (ensure 'markdown' package is installed)
 with open('raw.md', 'r', encoding='utf-8') as f:
     md_content = f.read()
 html_body = markdown.markdown(md_content, extensions=['tables'])
 
-# Step 2: Inject copy buttons above each table using BeautifulSoup (requires 'beautifulsoup4')
+# Use BeautifulSoup to inject the copy button above each table
 soup = BeautifulSoup(html_body, 'html.parser')
 for table in soup.find_all('table'):
-    # Create a wrapper div
+    # Wrap the table in a new div with class "table-wrapper"
     wrapper = soup.new_tag("div", **{"class": "table-wrapper"})
+    table.wrap(wrapper)
     # Create the copy button
     button = soup.new_tag("button", onclick="copyTable(this)")
     button.string = "Copy this table to paste in Excel"
-    wrapper.append(button)
-    # Move the table inside the wrapper
-    wrapper.append(table.extract())
-    table.replace_with(wrapper)
+    # Insert the button before the table within the wrapper
+    table.insert_before(button)
+
 modified_html_body = str(soup)
 
-# Step 3: Build a boilerplate HTML and inject the converted content
+# Build a full HTML boilerplate and inject the modified HTML body
 html_template = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
