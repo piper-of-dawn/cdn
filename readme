@@ -1,18 +1,10 @@
-The probability density function (PDF) of a Gaussian (Normal) distribution with zero mean $(\mu = 0)$ and standard deviation $x$ is given by:
 
-$$f(x; \sigma) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{x^2}{2\sigma^2}\right)$$
+You are boating through the Mediterranean Sea when your motor breaks down. You remember learning from your divemaster that the probability of seeing at least one boat within a given hour is 73.7856%. Assume that boats are observed as a Poisson process with a fixed rate of observations per time step and that observations are independent in any mutually exclusive time period. What is the probability that you will see at least one boat within the next 10 minutes?
 
-Given a set of observations $\mathbf{x} = (x_1, \ldots, x_n)$ from a Gaussian distribution with zero mean and variance $\sigma^2$, the negative log-likelihood function is:
-$$L(\sigma^2; \mathbf{x}) = \frac{n}{2} \ln(2\pi) + \frac{n}{2} \ln(\sigma^2) + \frac{1}{2\sigma^2} \sum_{i=1}^n x_i^2$$
-where:
-- $n$ is the number of observations
-- $\sigma^2$ is the variance parameter to be estimated
-- $\sum_{i=1}^n x_i^2$ is the sum of squared observations
 
-To minimize the negative log-likelihood for a zero-mean Gaussian distribution, we need to find the value of $\sigma^2$ that minimizes the following expression:
-$$\arg\min_{\sigma^2} L(\sigma^2; \mathbf{x}) = \arg\min_{\sigma^2} \left[\frac{n}{2} \ln(2\pi) + \frac{n}{2} \ln(\sigma^2) + \frac{1}{2\sigma^2} \sum_{i=1}^n x_i^2\right]$$
-o find the minimum, we differentiate $L(\sigma^2; \mathbf{x})$ with respect to $\sigma^2$ and set it to zero:
-$$\frac{\partial L}{\partial \sigma^2} = \frac{n}{2\sigma^2} - \frac{1}{2(\sigma^2)^2} \sum_{i=1}^n x_i^2 = 0$$
-Solving this equation yields the maximum likelihood estimator for $\sigma^2$:
-$$\hat{\sigma}^2 = \frac{1}{n} \sum_{i=1}^n x_i^2$$
-This is the sample variance for a zero-mean Gaussian distribution.
+On average, how many times must a fair coin be flipped to obtain 10 consecutive heads?
+
+Ken flips a fair coin until he observes a head. He receives the minimum of 
+$64 and $2^n$ where $n$ is the number of times that Ken flips the coin. What is his expected payoff?
+
+Assuming 365 days in a year, how many people do we need in a class to make the probability that at least two people have the same birthday more than $/frac{1}{2}$
