@@ -173,3 +173,27 @@ def remove_special_characters(name):
 name = "my@csv#file$name.csv"
 sanitized_name = remove_special_characters(name)
 print("Sanitized name:", sanitized_name)
+
+
+
+
+library(data.table)
+
+check_and_read_csv <- function(i, path) {
+  file_path <- file.path(path, paste0("P", i, ".csv"))
+  
+  if (file.exists(file_path)) {
+    dt <- fread(file_path, nrows = 500001) # Read one extra row to check count
+    
+    if (nrow(dt) == 500000) {
+      return(dt)
+    } else {
+      message("File exists but does not have exactly 500,000 rows.")
+    }
+  } else {
+    message("File does not exist: ", file_path)
+  }
+  
+  return(NULL)
+}
+
