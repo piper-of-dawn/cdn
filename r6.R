@@ -1,8 +1,8 @@
 library(R6)
 
 # Define the URLHandler class
-URLHandler <- R6Class(
-  "URLHandler",
+mptHandler <- R6Class(
+  "MPT",
   
   # Public members
   public = list(
