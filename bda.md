@@ -1,55 +1,28 @@
----
-marp: true
-theme: default
----
+To facilitate a direct comparison with the normal distribution, the Student's t-distribution is rescaled to match a target variance $\sigma^2$, typically estimated from residuals under a Gaussian model. The variance of a standard t-distribution with $\nu > 2$ degrees of freedom is:
 
-<!-- Slide 1 -->
+$$
+\text{Var}(T_\nu) = \frac{\nu}{\nu - 2}
+$$
 
-# Unconditional Returns of CLOs
+To match this with a normal-based standard deviation $\sigma$, we apply the scaling transformation:
 
-- CLO returns often **overshoot** benchmark indices.
-- This persistent overshooting leads to **excess kurtosis** (fat tails).
-- Visual inspection of kernel density plots shows higher peak and heavier tails than the normal distribution.
-
----
-
-<!-- Slide 2 -->
-
-# Conditional Returns of CLOs
-
-- After regressing against risk factors, **residuals** show fat-tailed behavior.
-- **Normality is violated**, especially in the **left tail**, indicating risk of extreme losses.
-- QQ plots confirm deviation from normal, particularly in the lower quantiles.
+$$
+\text{Scale} = \sigma \cdot \sqrt{\frac{\nu - 2}{\nu}} \quad \Rightarrow \quad \text{Var}(\text{Scale} \cdot T_\nu) = \sigma^2
+$$
 
 ---
 
-<!-- Slide 3 -->
+### Intent
 
-# MLE Fit with Student's t-distribution
-
-- Using Maximum Likelihood Estimation (MLE), degrees of freedom \( \nu \) is optimized.
-- The **KS statistic improves**, indicating **t-distribution fits residuals better**.
-- Suggests that returns are **conditionally heavy-tailed** and better modeled with a flexible distribution.
-
+The purpose of this rescaling is to **control for dispersion**, allowing the t-distribution to be evaluated purely on its **tail behavior**. 
 ---
 
-<!-- Slide 4 -->
+### Conclusion
 
-# Robust Conclusions
+Even after rescaling, the t-distribution will retain its **fat-tailed nature**, exhibiting heavier tail probabilities than the normal distribution. This allows it to more accurately reflect the risk of extreme outcomes, where normality assumptions often underestimate tail risk. That said, even the **normal distribution does provide reasonable coverage** of tail risk as evident from the time series plots presented above. For instance, a 95% upper bound is given by:
 
-- CLO returns exhibit **non-normal behavior** both unconditionally and conditionally.
-- **Fat tails** are structurally embedded, not just artifacts of noise.
-- Modeling with **t-distribution provides robustness**, especially for risk estimation.
-- **Risk management models assuming normality** will underestimate extreme outcomes.
+$$
+\text{Upper} = \mathbb{E}[r_t] + 1.96 \cdot \sigma
+$$
 
----
-
-<!-- Slide 5 -->
-
-# Critical Reflection
-
-- Overshooting could also result from **structural leverage or illiquidity**, not just statistical fat tails.
-- KS-stat improvement is useful, but not sufficient — consider **CVaR or tail index** tests for robustness.
-- Does residual structure imply **omitted risk factors**? Consider more granular factor modeling.
-- Future work: **time-varying volatility** models (e.g., GARCH-t) or regime-switching models.
-
+This threshold captures even the most extreme drawdown that happened during March 2020. 
