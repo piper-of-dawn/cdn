@@ -200,12 +200,16 @@ check_and_read_csv <- function(i, path) {
 
 library(dplyr)
 
-mutate_volatility_factor <- function(df) {
+mutate_volatility_factor_conditional <- function(df) {
   df %>%
-    mutate(volatility_factor = if_else(
-      volatility_factor == "NA",
-      sqrt(1.8^2 - 1 + as.numeric(beta_factor)^2),
-      as.numeric(volatility_factor)
-    ))
+    mutate(
+      vf_needs_mutation = (volatility_factor == "NA" | as.numeric(volatility_factor) == 1.8) & beta_factor != 1,
+      volatility_factor = if_else(
+        vf_needs_mutation,
+        sqrt(1.8^2 - 1 + beta_factor^2),
+        as.numeric(volatility_factor)
+      ),
+      vf_mutated = vf_needs_mutation
+    ) %>%
+    select(-vf_needs_mutation)
 }
-
