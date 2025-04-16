@@ -197,3 +197,15 @@ check_and_read_csv <- function(i, path) {
   return(NULL)
 }
 
+
+library(dplyr)
+
+mutate_volatility_factor <- function(df) {
+  df %>%
+    mutate(volatility_factor = if_else(
+      volatility_factor == "NA",
+      sqrt(1.8^2 - 1 + as.numeric(beta_factor)^2),
+      as.numeric(volatility_factor)
+    ))
+}
+
