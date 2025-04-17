@@ -31,3 +31,14 @@ def find_most_similar(input_string, candidates):
     
     # Return the candidate with highest score
     return max(similarities, key=lambda x: x[0])[1]
+
+
+plt.figure(figsize=(6, 6))
+plt.scatter(df['idiosyncratic_vola'], df['idiosyncratic_vola_vf_adj'])
+plt.plot([0, df['idiosyncratic_vola'].max()], [0, df['idiosyncratic_vola'].max()], 'k--')
+plt.xlabel('Original Idio Vol')
+plt.ylabel('Adjusted Idio Vol')
+plt.title('Original vs Adjusted Idiosyncratic Volatility')
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.tight_layout()
+plt.show()
