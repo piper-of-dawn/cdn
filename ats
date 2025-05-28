@@ -1,3 +1,48 @@
+import math
+
+def sinproj_hash(data, alpha=0.1234567):
+    """
+    Compute a similarity-preserving hash for a flat buffer of doubles.
+    Returns a single floating-point value.
+    """
+    N = len(data)
+    if N == 0:
+        return 0.0
+    return sum(val * math.sin(i * alpha) for i, val in enumerate(data)) / N
+
+# Test cases
+def test_identical():
+    data = [1.0, 2.0, 3.0, 4.0]
+    h1 = sinproj_hash(data)
+    h2 = sinproj_hash(data.copy())
+    assert h1 == h2, "Identical data should yield identical hashes"
+    print("Identical test passed:", h1, h2)
+
+def test_similar():
+    data1 = [1.0, 2.0, 3.0, 4.0]
+    data2 = [1.0, 2.0, 3.0001, 4.0]  # small perturbation
+    h1 = sinproj_hash(data1)
+    h2 = sinproj_hash(data2)
+    print("Similar test:")
+    print("  Hash1:", h1)
+    print("  Hash2:", h2)
+    print("  Difference:", abs(h1 - h2))
+
+def test_different():
+    data1 = [1.0, 2.0, 3.0, 4.0]
+    data2 = [4.0, 3.0, 2.0, 1.0]  # reversed order
+    h1 = sinproj_hash(data1)
+    h2 = sinproj_hash(data2)
+    assert abs(h1 - h2) > 1e-6, "Different data should yield noticeably different hashes"
+    print("Different test passed:", h1, h2)
+
+if __name__ == "__main__":
+    test_identical()
+    test_similar()
+    test_different()
+
+
+
 #!/bin/bash
 
 # Function to disable sleep settings
