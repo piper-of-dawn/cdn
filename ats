@@ -11,6 +11,19 @@ h = \frac{1}{RC}
 \sum_{r=0}^{R-1}\sum_{c=0}^{C-1}
 M_{r,c}\,\sin\bigl(\alpha\,(r\,C + c)\bigr).
 $$
+Let $x_i$ be the $i$ th element of your flattened matrix (size $N=2048\times136$), and let $\alpha$ be the weighting constant (e.g.\ $0.1234567$). Then the sin-projection hash is
+
+$$
+h = \frac{1}{N}\sum_{i=0}^{N-1} x_i\,\sin(\alpha\,i).
+$$
+
+Equivalently, for a matrix $M$ with $R$ rows and $C$ columns ($N=RC$), flattening row-major gives $i = r\,C + c$, so
+
+$$
+h = \frac{1}{RC}
+\sum_{r=0}^{R-1}\sum_{c=0}^{C-1}
+M_{r,c}\,\sin\bigl(\alpha\,(r\,C + c)\bigr).
+$$
 
 
 import math
